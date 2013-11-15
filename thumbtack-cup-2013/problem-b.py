@@ -16,6 +16,13 @@ import math
 cos = [1, 0, -1, 0]
 sin = [0, 1 ,0, -1]
 
+EPS = 1e-9
+
+
+def eq(x, y):
+    return abs(x - y) < EPS
+
+
 def dist(x, y):
     return math.sqrt(x**2 + y**2)
 
@@ -113,46 +120,46 @@ def main(fo):
 
     print w, h, d, x1, y1, z1, x2, y2, z2
 
-    if x1 == w:
+    if eq(x1, w):
         x1 = 0
         x2 = w - x2
 
-    if y1 == h:
+    if eq(y1, h):
         y1 = 0
         y2 = h - y2
 
-    if z1 == d:
+    if eq(z1, d):
         z1 = 0
         z2 = d - z2
 
-    if x1 == 0:
+    if eq(x1, 0):
         x1, z1 = z1, x1
         x2, z2 = z2, x2
         w, d = d, w
 
-    if y1 == 0:
+    if eq(y1, 0):
         y1, z1 = z1, y1
         y2, z2 = z2, y2
         h, d = d, h
 
-    if x2 == w:
+    if eq(x2, w):
         x1 = w - x1
         x2 = 0
 
-    if y2 == h:
+    if eq(y2, h):
         y1 = h - y1
         y2 = 0
 
-    if y2 == 0:
+    if eq(y2, 0):
         x1, y1 = y1, x1
         x2, y2 = y2, x2  # now x2 equal to 0
         w, h = h, w
 
-    if z2 == 0:
+    if eq(z2, 0):
         goal = 0
-    elif x2 == 0:
+    elif eq(x2, 0):
         goal = 3
-    elif z2 == d:
+    elif eq(z2, d):
         goal = 2
     else:
         return 1  # shouldn't reach here
