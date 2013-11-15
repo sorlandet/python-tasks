@@ -30,21 +30,17 @@ def ts(pos, n, xi, yi, vi, xb, xe):
     flag = True
 
     if l > r:
-        tmp = l
-        l = r
-        r = tmp
+        l, r = r, l
 
     while r - l >= EPS or flag:
         m1 = l + (r - l) / 3.0
         m2 = r - (r - l) / 3.0
 
         xi[pos] = m1
-        delta = distance(yi[0], m1 - xb) if pos == 0 else distance(yi[pos] - yi[pos - 1], m1 - xi[pos - 1])
-        t1 = ts(pos + 1, n, xi, yi, vi, xb, xe) + delta / vi[pos]
+        t1 = ts(pos + 1, n, xi, yi, vi, xb, xe) + (distance(yi[0], m1 - xb) if pos == 0 else distance(yi[pos] - yi[pos - 1], m1 - xi[pos - 1])) / vi[pos]
 
         xi[pos] = m2
-        delta = distance(yi[0], m2 - xb) if pos == 0 else distance(yi[pos] - yi[pos - 1], m2 - xi[pos - 1])
-        t2 = ts(pos + 1, n, xi, yi, vi, xb, xe) + delta / vi[pos]
+        t2 = ts(pos + 1, n, xi, yi, vi, xb, xe) + (distance(yi[0], m2 - xb) if pos == 0 else distance(yi[pos] - yi[pos - 1], m2 - xi[pos - 1])) / vi[pos]
 
         if t1 < t2:
             r = m2
@@ -58,10 +54,10 @@ def ts(pos, n, xi, yi, vi, xb, xe):
 
 def main(fo):
     n = long(fo.readline())
+    xi = range(n)
     yi = [float(y) for y in fo.readline().strip().split(' ')]
     vi = [float(v) for v in fo.readline().strip().split(' ')]
     xb, xe = [float(x) for x in fo.readline().strip().split(' ')]
-    xi = [0 for i in xrange(n)]
 
     #print yi, vi, xb, xe, xi
 
@@ -69,7 +65,7 @@ def main(fo):
 
 if __name__ == '__main__':
     fo = sys.stdin
-    #fo = open('problem-e-input.txt', 'rU')  #1.5159245
+    #fo = open('problem-e-input.txt', 'rU')  #12.3538925
 
     sys.stdout.write('{:.7f}'.format(main(fo)))
 
