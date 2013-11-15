@@ -15,6 +15,7 @@ import math
 
 cos = [1, 0, -1, 0]
 sin = [0, 1 ,0, -1]
+u = [0, 0, 0, 0, 0, 0]
 
 EPS = 1e-9
 
@@ -38,8 +39,9 @@ def rotX(ornt, x, y):
 def rotY(ornt, x, y):
     return x * sin[ornt % 4] + y * cos[ornt % 4]
 
-def dfs(v, ornt, cur_x, cur_y, u):
-    ans = 1
+
+def dfs(v, ornt, cur_x, cur_y):
+    ans = 1e100
 
     if u[v]:
         return ans
@@ -65,35 +67,35 @@ def dfs(v, ornt, cur_x, cur_y, u):
     u[v] = 1
 
     if v == 0:
-        dfs(1, ornt, cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0), u)
-        dfs(3, ornt, cur_x + rotX(ornt, -d, 0), cur_y + rotY(ornt, -d, 0), u)
-        dfs(4, ornt, cur_x + rotX(ornt, 0, h), cur_y + rotY(ornt, 0, h), u)
-        dfs(5, (ornt + 2) % 4, cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0), u)
+        dfs(1, ornt, cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0))
+        dfs(3, ornt, cur_x + rotX(ornt, -d, 0), cur_y + rotY(ornt, -d, 0))
+        dfs(4, ornt, cur_x + rotX(ornt, 0, h), cur_y + rotY(ornt, 0, h))
+        dfs(5, (ornt + 2) % 4, cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0))
     elif v == 1:
-        dfs(0, ornt, cur_x + rotX(ornt, -w, 0), cur_y + rotY(ornt, -w, 0), u)
-        dfs(2, ornt, cur_x + rotX(ornt, d, 0), cur_y + rotY(ornt, d, 0), u)
-        dfs(4, (ornt + 3) % 4, cur_x + rotX(ornt, 0, h + w), cur_y + rotY(ornt, 0, h + w), u)
-        dfs(5, (ornt + 3) % 4, cur_x, cur_y, u)
+        dfs(0, ornt, cur_x + rotX(ornt, -w, 0), cur_y + rotY(ornt, -w, 0))
+        dfs(2, ornt, cur_x + rotX(ornt, d, 0), cur_y + rotY(ornt, d, 0))
+        dfs(4, (ornt + 3) % 4, cur_x + rotX(ornt, 0, h + w), cur_y + rotY(ornt, 0, h + w))
+        dfs(5, (ornt + 3) % 4, cur_x, cur_y)
     elif v == 2:
-        dfs(1, ornt, cur_x + rotX(ornt, -d, 0), cur_y + rotY(ornt, -d, 0), u)
-        dfs(3, ornt, cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0), u)
-        dfs(4, (ornt + 2) % 4, cur_x + rotX(ornt, w, h + d), cur_y + rotY(ornt, w, h + d), u)
-        dfs(5, ornt, cur_x + rotX(ornt, 0, -d), cur_y + rotY(ornt, 0, -d), u)
+        dfs(1, ornt, cur_x + rotX(ornt, -d, 0), cur_y + rotY(ornt, -d, 0))
+        dfs(3, ornt, cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0))
+        dfs(4, (ornt + 2) % 4, cur_x + rotX(ornt, w, h + d), cur_y + rotY(ornt, w, h + d))
+        dfs(5, ornt, cur_x + rotX(ornt, 0, -d), cur_y + rotY(ornt, 0, -d))
     elif v == 3:
-        dfs(0, ornt, cur_x + rotX(ornt, d, 0), cur_y + rotY(ornt, d, 0), u)
-        dfs(2, ornt, cur_x + rotX(ornt, -w, 0), cur_y + rotY(ornt, -w, 0), u)
-        dfs(4, (ornt + 1) % 4, cur_x + rotX(ornt, d, h), cur_y + rotY(ornt, d, h), u)
-        dfs(5, (ornt + 1) % 4, cur_x + rotX(ornt, d, -w), cur_y + rotY(ornt, d, -w), u)
+        dfs(0, ornt, cur_x + rotX(ornt, d, 0), cur_y + rotY(ornt, d, 0))
+        dfs(2, ornt, cur_x + rotX(ornt, -w, 0), cur_y + rotY(ornt, -w, 0))
+        dfs(4, (ornt + 1) % 4, cur_x + rotX(ornt, d, h), cur_y + rotY(ornt, d, h))
+        dfs(5, (ornt + 1) % 4, cur_x + rotX(ornt, d, -w), cur_y + rotY(ornt, d, -w))
     elif v == 4:
-        dfs(0, ornt, cur_x + rotX(ornt, 0, -h), cur_y + rotY(ornt, 0, -h), u)
-        dfs(1, (ornt + 1) % 4, cur_x + rotX(ornt, w + h, 0), cur_y + rotY(ornt, w + h, 0), u)
-        dfs(2, (ornt + 2) % 4, cur_x + rotX(ornt, w, d + h), cur_y + rotY(ornt, w, d + h), u)
-        dfs(3, (ornt + 3) % 4, cur_x + rotX(ornt, -h, d), cur_y + rotY(ornt, -h, d), u)
+        dfs(0, ornt, cur_x + rotX(ornt, 0, -h), cur_y + rotY(ornt, 0, -h))
+        dfs(1, (ornt + 1) % 4, cur_x + rotX(ornt, w + h, 0), cur_y + rotY(ornt, w + h, 0))
+        dfs(2, (ornt + 2) % 4, cur_x + rotX(ornt, w, d + h), cur_y + rotY(ornt, w, d + h))
+        dfs(3, (ornt + 3) % 4, cur_x + rotX(ornt, -h, d), cur_y + rotY(ornt, -h, d))
     elif v == 5:
-        dfs(0, (ornt + 2), cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0), u)
-        dfs(1, (ornt + 1) % 4, cur_x + rotX(ornt, 0, 0), cur_y + rotY(ornt, 0, 0), u)
-        dfs(2, (ornt + 0) % 4, cur_x + rotX(ornt, 0, d), cur_y + rotY(ornt, 0, d), u)
-        dfs(3, (ornt + 3) % 4, cur_x + rotX(ornt, w, d), cur_y + rotY(ornt, w, d), u)
+        dfs(0, (ornt + 2), cur_x + rotX(ornt, w, 0), cur_y + rotY(ornt, w, 0))
+        dfs(1, (ornt + 1) % 4, cur_x + rotX(ornt, 0, 0), cur_y + rotY(ornt, 0, 0))
+        dfs(2, (ornt + 0) % 4, cur_x + rotX(ornt, 0, d), cur_y + rotY(ornt, 0, d))
+        dfs(3, (ornt + 3) % 4, cur_x + rotX(ornt, w, d), cur_y + rotY(ornt, w, d))
 
     u[v] = 0
 
@@ -164,9 +166,7 @@ def main(fo):
     else:
         return 1  # shouldn't reach here
 
-    u = [None for i in range(6)]
-
-    return dfs(0, 0, 0, 0, u)
+    return dfs(0, 0, 0, 0)
 
 if __name__ == '__main__':
     #fo = sys.stdin
