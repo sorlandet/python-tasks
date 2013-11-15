@@ -2,6 +2,7 @@
 
 import sys
 
+
 # Input format
 # Первая строка входного файла содержит целое число N – количество программистов (1 < N ≤ 105).
 # В каждой из следующих N строк записаны через пробел 2 натуральных числа – Bi и Ti (1 ≤ Bi, Ti ≤ 1000),
@@ -10,9 +11,6 @@ import sys
 #
 # Output format
 # В выходной файл следует вывести одно целое число – час от начала работы над проектом (считая с первого), в который будет отправлен юбилейный коммит.
-import cStringIO
-
-
 def main(fo):
     sn = fo.readline()
     n = long(sn)
@@ -61,7 +59,7 @@ def main(fo):
 
 if __name__ == '__main__':
     fo = sys.stdin
-    #fo = open(sys.argv[1], 'rU')
+    #fo = open(sys.argv[1], 'rU') # 95
 
     sys.stdout.write('%s' % main(fo))
 
