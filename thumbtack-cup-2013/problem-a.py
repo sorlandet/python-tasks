@@ -1,48 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import sys
-
-#public class A {
-#
-#        static final long MAXD = 100000000000000000L; // 10^17
-#        public static void main(String[] args) throws IOException {
-#                    int n;
-#                        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-#                        String sn = input.readLine();
-#                        n = Integer.parseInt(sn);
-#                    long[] b = new long[n];
-#                    long[] t = new long[n];
-#
-#                    for (int i = 0; i < n; ++i) {
-#                            String line = input.readLine();
-#                            String[] vals = line.split(" ");
-#                            b[i] = Integer.parseInt(vals[0]);
-#                            t[i] = Integer.parseInt(vals[1]);
-#                    }
-#
-#                    long goal;
-#                        String sgoal = input.readLine();
-#                        goal = Long.parseLong(sgoal);
-#
-#                    long l = 0, r = MAXD;
-#                    while(l + 1 != r) {
-#                        long cnt = 0, m = (l+r)/2;
-#                        for (int i = 0; i < n && cnt <= MAXD; ++i) {
-#                            if(m >= b[i])
-#                                cnt += (m - b[i]) / t[i] + 1;
-#                        }
-#
-#                        if(cnt < goal)
-#                            l = m;
-#                        else
-#                            r = m;
-#                    }
-#
-#                    System.out.println(r);
-#        }
-#
-#}
 
 # Input format
 # Первая строка входного файла содержит целое число N – количество программистов (1 < N ≤ 105).
@@ -52,18 +10,60 @@ import sys
 #
 # Output format
 # В выходной файл следует вывести одно целое число – час от начала работы над проектом (считая с первого), в который будет отправлен юбилейный коммит.
+import cStringIO
 
-def main(args):
-    print args
 
-    return 0
+def main(fo):
+    sn = fo.readline()
+    n = long(sn)
+    goal = 0
+    b, t = ([], [])
+
+    while 1:
+        lines = fo.readlines(100000)
+        if not lines:
+            break
+        for line in lines:
+            l = line.strip()
+            try:
+                bi, ti = l.split(' ')
+                b.append(long(bi))
+                t.append(long(ti))
+            except ValueError:
+                goal = long(l)
+
+    #for line in fo:
+    #    l = line.strip()
+    #    try:
+    #        bi, ti = l.split(' ')
+    #        b.append(long(bi))
+    #        t.append(long(ti))
+    #    except ValueError:
+    #        goal = long(l)
+
+
+    l = 0
+    r = sys.maxsize
+    while l + 1 != r:
+        cnt = 0
+        m = (l + r) / 2
+        for i in xrange(n):
+            if cnt > sys.maxsize:
+                break
+            if m >= b[i]:
+                cnt += (m - b[i]) / t[i] + 1
+        if cnt < goal:
+            l = m
+        else:
+            r = m
+
+    return r
 
 if __name__ == '__main__':
-    start_time = datetime.datetime.now()
+    fo = sys.stdin
+    #fo = open(sys.argv[1], 'rU')
 
-    main(sys.argv[1:])
+    sys.stdout.write('%s' % main(fo))
 
-    end_time = datetime.datetime.now()
-    c = end_time - start_time
+    fo.close()
 
-    print '%d seconds %d microseconds' % (c.seconds, c.microseconds)
