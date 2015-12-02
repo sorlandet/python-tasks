@@ -1,7 +1,6 @@
 import datetime
 
-from toolz.curried import map
-from toolz import frequencies, compose, concat, merge_with
+from toolz import frequencies, compose, concat, merge_with, map
 
 
 def stem(word):
