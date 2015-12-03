@@ -33,10 +33,9 @@ text = """
 def main(argv):
     global text
     ret = {}
-    for line in text.split('<br>'):
-        item = line.strip()
-        item = re.sub(' +', ' ', item)
-        p = re.compile('(?P<key>.*|.*(?:\s.*)):\s?<strong>(?P<value>.*)</strong>', re.DOTALL)
+    for item in text.split('<br>'):
+        item = re.sub('\s+', ' ', item)
+        p = re.compile('(?P<key>.*(?:\s.*)):\s?<strong>(?P<value>.*)</strong>', re.DOTALL)
         item = item.replace("\n", "")
         m = p.match(item)
         if m:
