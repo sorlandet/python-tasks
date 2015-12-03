@@ -84,39 +84,36 @@ def is_prime_by_regexp(n):
     return True
 
 
-# def get_prime_numbers(n):
-#     ret = []
-#     for idx, item in enumerate(xrange(n), start=1):
-#         if is_prime0(idx):
-#             ret.append(idx)
-#             # sys.stdout.write('%d, ' % i)
-#
-#     return ret
+def get_prime_numbers(start, end):
+    for idx in range(start, end):
+        if is_prime0(idx):
+            yield idx
 
 
 def main(argv):
     n = None
+    start = None
 
     try:
-        opts, args = getopt.getopt(argv, "hn:", ["number="])
+        opts, args = getopt.getopt(argv, "hn:s:", ['number=', 'start='])
     except getopt.GetoptError:
-        print 'get-prime-numbers.py -n <number>'
+        print 'get-prime-numbers.py -n <number> -s <start>'
         sys.exit(2)
 
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print 'get-prime-numbers.py -n <number>'
+            print 'get-prime-numbers.py -n <number> -s <start>'
             sys.exit()
         elif opt in ("-n", "--number"):
             n = int(arg)
+        elif opt in ("-s", "--start"):
+            start = int(arg)
 
-    print 'Calculating prime numbers from 1 to:', n, '100 times'
-
-
-    # print 'basic'
-    # print 'time:', timeit.timeit("get_prime_numbers(%s)" % n, setup="from __main__ import get_prime_numbers", number=1)
-    # print 'found:', len(get_prime_numbers(n))
-    # print '====================================================================='
+    if n and start:
+        print 'Calculating prime numbers from %d to %d' % (start, n)
+        print 'found:',  [el for el in get_prime_numbers(start, n)]
+        print '====================================================================='
+        sys.exit(2)
 
     print 'is_prime0'
     print 'time:', timeit.timeit("is_prime0(%s)" % n,
