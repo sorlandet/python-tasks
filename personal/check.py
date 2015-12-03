@@ -33,14 +33,16 @@ text = """
 def main(argv):
     global text
     ret = {}
+    p = re.compile('(?P<key>.*(?:\s.*)):\s?<strong>(?P<value>.*)</strong>')
     for item in text.split('<br>'):
-        item = re.sub('\s+', ' ', item)
-        p = re.compile('(?P<key>.*(?:\s.*)):\s?<strong>(?P<value>.*)</strong>', re.DOTALL)
-        item = item.replace("\n", "")
+        item = re.sub('\s+', ' ', item).replace('\n', '')
         m = p.match(item)
         if m:
             key, value = m.groups()
-            ret[key.strip()] = value.strip()
+            key = key.strip()
+            if key == 'Price':
+                value = re.sub('<[^<]+?>', '', value)
+            ret[key] = value.strip()
 
     import pprint
     pp = pprint.PrettyPrinter(depth=6)
