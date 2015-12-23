@@ -1,5 +1,4 @@
 from datetime import date
-from math import fabs
 
 
 def days_diff(date1, date2):
@@ -8,7 +7,7 @@ def days_diff(date1, date2):
     """
     timedelta = date(*date2) - date(*date1)
 
-    return fabs(timedelta.days)
+    return abs(timedelta.days)
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
